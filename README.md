@@ -76,7 +76,7 @@ W następnym materiale poznasz techniki, które pozwolą Ci podzielić ten kompo
 
 Do konfiguracji webpack-a tj. w pliku `webpack.config.js` dodano obługę plików CSS dlatego możesz odpowiednio stylować swoje rozwiązanie wykorzystując klasy i metodologię [BEM](http://getbem.com/).
 
-Zuważ, że w pliku `./src/app.js` jest importowany plik CSS. Dzięki temu rozwiązaniu webpack pobierze zawartość pliku i doda CSS jako znacznik `<style/>` w `<head/>` dla naszego `index.html`.
+Zuważ, że w pliku `./src/app.js` jest importowany plik CSS. Dzięki temu a naszego `index.html`.rozwiązaniu webpack pobierze zawartość pliku i doda CSS jako znacznik `<style/>` w `<head/>` dl
 
 #### Dodatkowe zasoby w CSS
 
