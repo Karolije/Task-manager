@@ -1,9 +1,18 @@
 {
-    "data": [
+    "tasks": [
         {
-            "id": 1,
-            "firstName": "Jan",
-            "lastName": "Kowalski"
+            "name": "Task 1",
+            "time": "0",
+            "isRunning": "false",
+            "isDone": "false",
+            "isRemoved": "true"
+        },
+        {
+            "name": "Task 2",
+            "time": "0",
+            "isRunning": "false",
+            "isDone": "false",
+            "isRemoved": "true"
         }
     ]
 }
