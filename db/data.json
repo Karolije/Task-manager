@@ -1,15 +1,17 @@
 {
     "tasks": [
         {
+            "id": "1",
             "name": "Task 1",
-            "time": "0",
+            "time": 0,
             "isRunning": "false",
             "isDone": "false",
             "isRemoved": "true"
         },
         {
+            "id": "2",
             "name": "Task 2",
-            "time": "0",
+            "time": 0,
             "isRunning": "false",
             "isDone": "false",
             "isRemoved": "true"

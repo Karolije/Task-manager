@@ -7,18 +7,8 @@ export default class API {
             .then(resp => {
                 if(resp.ok) { return resp.json(); }
                 return Promise.reject(resp);
-            })
-            .then(data => {
-                console.log(data);
-            })
-            .catch(err => console.error(err));
+            });
      
-            }
-        
-
-
-
-
-    
+    } 
 }
 

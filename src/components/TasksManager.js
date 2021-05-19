@@ -1,31 +1,31 @@
 import React from 'react';
 import API from './Api';
-import data from '../../db/data.json'
 
 class TasksManager extends React.Component {
     constructor(props) {
         super(props);
-        // api = new API('http://localhost:3005/tasks') 
+        this.api = new API('http://localhost:3005/tasks') 
         this.state = {
-
-            tasks: [
-                {
-                    name: 'Task 1',
-                    time: 0,
-                    isRunning: false,
-                    isDone: false,
-                    isRemoved: true,
-                },
-                {
-                    name: 'Task 2',
-                    time: 0,
-                    isRunning: false,
-                    isDone: false,
-                    isRemoved: true,
-                }
-            ]
+            input: '',
+            tasks: []
         }
     }
+
+
+    componentDidMount() {
+        console.log('componentDidMount!');
+
+        const promise = this.api.loadTasks();
+        promise.then(data => {
+            console.log(data, '<== data');
+
+            this.setState({
+                tasks: data,
+            })
+        })
+        .catch(err => console.error(err));
+    }
+
     onClick = () => {
         const { tasks } = this.state;
         console.log(tasks)
@@ -33,12 +33,12 @@ class TasksManager extends React.Component {
 
     newTask = e => {
         e.preventDefault();
-        const { name } = this.state.tasks;
-        this.addTask(`${name}`);
+        const { input } = this.state;
+        
         this.setState({
             tasks: [...this.state.tasks,
             {
-                name: e.target.parentElement.firstElementChild.value,
+                name: input,
                 time: 0,
                 isRunning: false,
                 isDone: false,
@@ -48,27 +48,39 @@ class TasksManager extends React.Component {
         })
     }
 
-    addTask(name) {
-        console.log(this.state)
-        this.setState({
-            tasks: [...this.state.tasks, name]
-        })
-    }
-
     addTaskForm() {
         return (
             <form>
-                <input name="task" />
+                <input 
+                    name="task" 
+                    value={this.state.input} 
+                    onChange={ e => this.setState({ input: e.target.value }) } 
+                />
                 <input type="submit" onClick={this.newTask} />
             </form>
         )
     }
 
-    startStopTime = e => {
-        e.preventDefault();
-        console.log(this.state.tasks)
+    incrementTime = e => {
+        console.log(this.state.tasks[0].isRunning)
+        setInterval(() => {
+            this.setState(state => {
+                const newTasks = state.tasks.map(task => {
+                        return {...task, time: task.time + 1, isRunning: "true"}
+           
+                });
+                console.log(newTasks)
+                return {
+                    tasks: newTasks,
+                }
+            });
+          }, 1000);       
     }
 
+    
+    
+    
+    
 
     renderTasks() {
 
@@ -79,7 +91,7 @@ class TasksManager extends React.Component {
                 <>
                     <header>{t.name} {t.time}sec</header>
                     <footer>
-                        <button onClick={this.startStopTime}>start/stop</button>
+                        <button onClick={this.incrementTime}>start/stop</button>
                         <button>zakończone</button>
                         <button disabled={true}>usuń</button>
                     </footer>
