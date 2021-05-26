@@ -1,20 +1,36 @@
 {
-    "tasks": [
-        {
-            "id": "1",
-            "name": "Task 1",
-            "time": 0,
-            "isRunning": "false",
-            "isDone": "false",
-            "isRemoved": "true"
-        },
-        {
-            "id": "2",
-            "name": "Task 2",
-            "time": 0,
-            "isRunning": "false",
-            "isDone": "false",
-            "isRemoved": "true"
-        }
-    ]
+  "tasks": [
+    {
+      "name": "Squats",
+      "time": 0,
+      "isRunning": false,
+      "isDone": false,
+      "isRemoved": false,
+      "id": 1
+    },
+    {
+      "name": "Reading books",
+      "time": 0,
+      "isRunning": false,
+      "isDone": false,
+      "isRemoved": false,
+      "id": 2
+    },
+    {
+      "name": "Language learning",
+      "time": 0,
+      "isRunning": false,
+      "isDone": false,
+      "isRemoved": false,
+      "id": 3
+    },
+    {
+      "name": "fds",
+      "time": 0,
+      "isRunning": false,
+      "isDone": false,
+      "isRemoved": false,
+      "id": 4
+    }
+  ]
 }

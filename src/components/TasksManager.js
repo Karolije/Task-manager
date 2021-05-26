@@ -1,5 +1,60 @@
 import React from 'react';
 import API from './Api';
+import styled from 'styled-components'
+
+
+const Container = styled.div`
+background: #6C8FA3;
+margin: 0 auto;
+max-width: 600px;
+margin-top: 15px;
+padding: 15px;
+border-radius: 10px;
+text-align: center
+
+`
+
+const Header = styled.header`
+
+max-width: 600px;
+margin-top: 15px;
+padding: 15px;
+border-radius: 10px;
+text-align: center;
+font-size: 1.4em;
+color: #FF9FB2;
+`
+
+const Button = styled.button`
+background-color: ${(props) => props.backgroundColor};
+font-size: 0.9em;
+width: 100%;
+border: 0;
+color: white;
+justify-content: center;
+padding: 5px 10px;
+margin: 5px;
+border-radius: 5px;
+
+&:hover {
+    background-color: #FBDCE2;
+}
+
+&:disabled {
+    background-color:  #FBDCE2;
+}
+`
+
+
+const Input = styled.input`
+
+border: 0;
+justify-content: center;
+padding: 10px 30px;
+margin: 0;
+font-size: 0.7em;
+color: #FF9FB2;
+`
 
 class TasksManager extends React.Component {
     constructor(props) {
@@ -24,52 +79,73 @@ class TasksManager extends React.Component {
             })
         })
         .catch(err => console.error(err));
+
+        this.incrementTime();
     }
 
     onClick = () => {
         const { tasks } = this.state;
-        console.log(tasks)
     }
 
     newTask = e => {
         e.preventDefault();
         const { input } = this.state;
         
-        this.setState({
-            tasks: [...this.state.tasks,
-            {
-                name: input,
-                time: 0,
-                isRunning: false,
-                isDone: false,
-                isRemoved: true,
-            }
-            ]
-        })
+
+        const newTask = {
+            name: input,
+            time: 0,
+            isRunning: false,
+            isDone: false,
+            isRemoved: false,
+        }
+
+        this.api.saveTask(newTask)
+            .then(resp => {
+                console.log(resp, '<== resp');
+                this.setState({
+                    tasks: [...this.state.tasks, resp],
+                    input: '',
+                  
+                })
+            });
     }
 
     addTaskForm() {
         return (
             <form>
-                <input 
+                <Input 
                     name="task" 
                     value={this.state.input} 
                     onChange={ e => this.setState({ input: e.target.value }) } 
                 />
-                <input type="submit" onClick={this.newTask} />
+                <Input type="submit" onClick={this.newTask} value="Add" />
             </form>
         )
     }
 
-    incrementTime = e => {
-        console.log(this.state.tasks[0].isRunning)
-        setInterval(() => {
+    incrementTime = () => {
+        this.intervalId = setInterval(() => {
             this.setState(state => {
                 const newTasks = state.tasks.map(task => {
-                        return {...task, time: task.time + 1, isRunning: "true"}
+                    if(task.isRunning) {
+                        const newTask = {...task, time: task.time + 1}
+
+                        // zapisanie do API
+                        
+              
+          
+ 
+               
+        
+
+                        return newTask;
+                    }
+
+                    return task;
            
                 });
-                console.log(newTasks)
+
                 return {
                     tasks: newTasks,
                 }
@@ -77,8 +153,44 @@ class TasksManager extends React.Component {
           }, 1000);       
     }
 
+
+    componentWillUnmount() {
+        clearInterval(this.intervalId);
+    }
     
+    handleClickStartStop = (taskId) => {
+        this.setState(state => {
+            const newTasks = state.tasks.map(task => {
+                if(task.id === taskId) {
+                    return {...task, isRunning: !task.isRunning}
+                }
+
+                return {...task, isRunning: false}
+            });
+
+            return {
+                tasks: newTasks,
+            }
+        });
+    }
     
+    handleClickEnded = (taskId) => {
+        this.setState(state => {
+            const newTasks = state.tasks.map(task => {
+                if(task.id === taskId) {
+                    return {...task, isDone: !task.isRunning}
+                }
+
+                return {...task}
+            });
+
+            return {
+                tasks: newTasks,
+            }
+        });
+    }
+
+
     
     
 
@@ -86,16 +198,14 @@ class TasksManager extends React.Component {
 
         const taskList = this.state.tasks.map(t => {
 
-
             return (
-                <>
+                <Container>
                     <header>{t.name} {t.time}sec</header>
                     <footer>
-                        <button onClick={this.incrementTime}>start/stop</button>
-                        <button>zakończone</button>
-                        <button disabled={true}>usuń</button>
+                        <Button backgroundColor="#B0E0E6" disabled={t.isDone} onClick={e => this.handleClickStartStop(t.id) }>{t.isRunning ? 'stop' : 'start'}</Button>
+                        <Button  backgroundColor="#B0E0E6" disabled={t.isDone} onClick={e => this.handleClickEnded(t.id)}>zakończone</Button>
                     </footer>
-                </>
+                </Container>
 
             )
         })
@@ -108,8 +218,10 @@ class TasksManager extends React.Component {
     render() {
         return (
             <main>
-                {this.addTaskForm()}
-                <h1 onClick={this.onClick}>TasksManager</h1>
+                <Header>
+                    <h1 onClick={this.onClick}>TasksManager</h1>
+                    {this.addTaskForm()}
+                </Header>
                 {this.renderTasks()}
             </main>
         )

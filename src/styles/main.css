@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans');
+
 body {
-    background: #dcdcdc;
+    background: #879eaa;
+    font-family: 'Noto Sans', sans-serif;
+    color: #FBDCE2;
+    margin: 0 auto;
+    max-width: 600px;
 }
