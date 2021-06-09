@@ -204,6 +204,7 @@ class TasksManager extends React.Component {
                     <footer>
                         <Button backgroundColor="#B0E0E6" disabled={t.isDone} onClick={e => this.handleClickStartStop(t.id) }>{t.isRunning ? 'stop' : 'start'}</Button>
                         <Button  backgroundColor="#B0E0E6" disabled={t.isDone} onClick={e => this.handleClickEnded(t.id)}>zakończone</Button>
+                        <Button  backgroundColor="#B0E0E6">usuń</Button>
                     </footer>
                 </Container>
 

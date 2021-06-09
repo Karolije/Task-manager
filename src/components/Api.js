@@ -25,5 +25,20 @@ export default class API {
                 return Promise.reject(resp);
             });
     }
+
+    removeTask(id) {
+        return fetch(this.apiUrl, {
+            method: 'DELETE',
+            body: JSON.stringify(id),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(resp => {
+                if(resp.ok) { return resp.json(); }
+                return Promise.reject(resp);
+            });
+    }
 }
 
