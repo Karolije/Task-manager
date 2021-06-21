@@ -132,7 +132,7 @@ class TasksManager extends React.Component {
                         const newTask = {...task, time: task.time + 1}
 
                         // zapisanie do API
-                        
+                        this.api.updateTask(newTask)
               
           
  
@@ -190,13 +190,44 @@ class TasksManager extends React.Component {
         });
     }
 
+    handleClickRemove = (taskId) => {
 
+        // const task = {...this.state.find(item => item.id === taskId)};
+        // task.isRemoved = true;
+        // this.api.updateTask(copyTask)
+        // .then(() => /* setState */)
+        // .catch(err => );
+
+
+        this.setState(state => {
+            const newTasks = state.tasks.map(task => {
+                if(task.id === taskId) {
+                    // this.api.removeTask(task.id);
+
+                    const copyTask = {...task, isRemoved: !task.isRemoved};
+                    this.api.updateTask(copyTask)
+                    return copyTask;
+
+                }
+
+                return {...task}
+            });
+
+            console.log(newTasks, 'remove');
+            return {
+                tasks: newTasks,
+            }
+        });
+    }
     
     
 
     renderTasks() {
 
         const taskList = this.state.tasks.map(t => {
+            if(t.isRemoved) {
+                return null;
+            }
 
             return (
                 <Container>
@@ -204,7 +235,7 @@ class TasksManager extends React.Component {
                     <footer>
                         <Button backgroundColor="#B0E0E6" disabled={t.isDone} onClick={e => this.handleClickStartStop(t.id) }>{t.isRunning ? 'stop' : 'start'}</Button>
                         <Button  backgroundColor="#B0E0E6" disabled={t.isDone} onClick={e => this.handleClickEnded(t.id)}>zakończone</Button>
-                        <Button  backgroundColor="#B0E0E6">usuń</Button>
+                        <Button onClick={e => this.handleClickRemove(t.id)} backgroundColor="#B0E0E6">usuń</Button>
                     </footer>
                 </Container>
 

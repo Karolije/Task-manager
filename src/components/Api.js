@@ -26,10 +26,24 @@ export default class API {
             });
     }
 
+    updateTask(task) {
+        return fetch(`${this.apiUrl}/${task.id}`, {
+            method: 'PUT',
+            body: JSON.stringify(task),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(resp => {
+                if(resp.ok) { return resp.json(); }
+                return Promise.reject(resp);
+            });
+    }
+
     removeTask(id) {
-        return fetch(this.apiUrl, {
+        return fetch(`${this.apiUrl}/${id}`, {
             method: 'DELETE',
-            body: JSON.stringify(id),
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'

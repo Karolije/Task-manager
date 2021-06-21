@@ -2,9 +2,9 @@
   "tasks": [
     {
       "name": "Squats",
-      "time": 0,
+      "time": 1,
       "isRunning": false,
-      "isDone": false,
+      "isDone": true,
       "isRemoved": false,
       "id": 1
     },
@@ -23,14 +23,6 @@
       "isDone": false,
       "isRemoved": false,
       "id": 3
-    },
-    {
-      "name": "",
-      "time": 0,
-      "isRunning": false,
-      "isDone": false,
-      "isRemoved": false,
-      "id": 4
     }
   ]
 }
